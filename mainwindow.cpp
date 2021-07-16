@@ -10,6 +10,12 @@ MainWindow::MainWindow(QWidget *parent)
     vw = new QVideoWidget(this);
     this->setCentralWidget(vw);
     player->setVideoOutput(vw);
+    slider = new QSlider(this);
+    slider->setOrientation(Qt::Horizontal);
+    ui->statusbar->addPermanentWidget(slider);
+    connect(player, &QMediaPlayer::durationChanged, slider, &QSlider::setMaximum);
+    connect(player, &QMediaPlayer::positionChanged, slider, &QSlider::setValue);
+    connect(slider, &QSlider::sliderMoved, player, &QMediaPlayer::setPosition);
 }
 
 MainWindow::~MainWindow()
